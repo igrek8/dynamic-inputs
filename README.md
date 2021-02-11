@@ -11,7 +11,7 @@ For example, you want to pick a value from a list of dynamic options. Visual Stu
 ## Installation
 
 ```
-curl https://github.com/igrek8/vscode-serverless/raw/build/dynamic-inputs-0.0.1.vsix -L --output dynamic-inputs-0.0.1.vsix
+curl https://github.com/igrek8/dynamic-inputs/raw/build/dynamic-inputs-0.0.1.vsix -L --output dynamic-inputs-0.0.1.vsix
 code --install-extension dynamic-inputs-0.0.1.vsix
 ```
 
