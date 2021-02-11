@@ -1,8 +1,13 @@
 {
   "name": "dynamic-inputs",
   "displayName": "dynamic-inputs",
-  "description": "",
+  "description": "Dynamic inputs for launch.json",
   "version": "0.0.1",
+  "publisher": "igrek8",
+  "repository": {
+    "url": "https://github.com/igrek8/dynamic-inputs",
+    "email": "i.korchagin@async.fun"
+  },
   "engines": {
     "vscode": "^1.53.0"
   },
@@ -10,14 +15,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:dynamic-inputs.helloWorld"
+    "onCommand:dynamic-inputs.require"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "dynamic-inputs.helloWorld",
-        "title": "Hello World"
+        "command": "dynamic-inputs.require",
+        "title": "Dynamic inputs"
       }
     ]
   },

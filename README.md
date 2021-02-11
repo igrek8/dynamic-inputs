@@ -1,71 +1,30 @@
-# dynamic-inputs README
+# vscode dynamic inputs
 
-This is the README for your extension "dynamic-inputs". After writing up a brief description, we recommend including the following sections.
+## Use case
 
-## Features
+For example, you want to pick a value from a list of dynamic options. Visual Studio Code does not support dynamic inputs in launch.json. Therefore, dynamic options are not possible. Here is the extension to save you!
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Demo
 
-For example if there is an image subfolder under your extension project workspace:
+![alt](./docs/demo.gif)
 
-\!\[feature X\]\(images/feature-x.png\)
+## Installation
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+```
+curl https://github.com/igrek8/vscode-serverless/raw/build/dynamic-inputs-0.0.1.vsix -L --output dynamic-inputs-0.0.1.vsix
+code --install-extension dynamic-inputs-0.0.1.vsix
+```
 
-## Requirements
+## How to use
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1. Define your launch.json using `dynamic-inputs.require`
+2. Reference the input in the launch task
+3. Implement a dynamic options provider which will populate options (should be CommonJS module which exports an async function by default)
 
-## Extension Settings
+## Working example
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+A working sample can be found [here](./sample)
 
-For example:
+## Limitation
 
-This extension contributes the following settings:
-
-- `myExtension.enable`: enable/disable this extension
-- `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-- Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-- Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+A script that populates options is expected to be a NodeJS script. However, one can wrap any other executable by using [child_process.execSync(command[, options])](https://nodejs.org/api/child_process.html#child_process_child_process_execsync_command_options)
