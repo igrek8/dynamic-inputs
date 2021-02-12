@@ -4,6 +4,49 @@
 
 For example, you want to pick a value from a list of dynamic options. Visual Studio Code does not support dynamic inputs in launch.json. Therefore, dynamic options are not possible. Here is the extension to save you!
 
+## Usage
+
+```jsonc
+{
+  "version": "0.2.0",
+  "inputs": [
+    // Define an input using "command"
+    {
+      "id": "option",
+      "type": "command",
+      "command": "dynamic-inputs.require",
+      // Specify a nodejs script to populate your options
+      "args": "${workspaceFolder}/dynamic-inputs.js"
+    }
+  ],
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/src/main.js",
+      // Use your dynamic option here
+      "args": ["${input:option}"]
+    }
+  ]
+}
+```
+
+Example of options from YAML file
+
+```js
+const fs = require("fs");
+const yaml = require("yaml");
+const path = require("path");
+
+module.exports = async (cwd) => {
+  const source = path.resolve(cwd, "services.yml");
+  const content = fs.readFileSync(source).toString("utf-8");
+  return Object.keys(yaml.parse(content).services);
+};
+```
+
 ## Demo
 
 ![alt](./docs/demo.gif)
