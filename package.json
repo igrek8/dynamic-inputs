@@ -1,9 +1,17 @@
 {
   "name": "dynamic-inputs",
-  "displayName": "dynamic-inputs",
+  "displayName": "Dynamic inputs",
   "description": "Dynamic inputs for launch.json",
   "version": "0.0.1",
+  "keywords": [
+    "vscode",
+    "dynamic",
+    "input",
+    "debugger",
+    "options"
+  ],
   "publisher": "igrek8",
+  "icon": "docs/icon.png",
   "repository": {
     "url": "https://github.com/igrek8/dynamic-inputs",
     "email": "i.korchagin@async.fun"
@@ -12,7 +20,7 @@
     "vscode": "^1.53.0"
   },
   "categories": [
-    "Other"
+    "Debuggers"
   ],
   "activationEvents": [
     "onCommand:dynamic-inputs.require"
