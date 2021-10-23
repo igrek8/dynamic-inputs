@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "myPreBuildTask",
+      "type": "shell",
+      "command": "echo",
+      "args": ["'${input:myDynamicParameter}'"],
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "myDynamicParameter",
+      "type": "command",
+      // first try to read from the disk or select again
+      "command": "dynamic-inputs.read",
+      "args": {
+        "command": "bash",
+        // a script which prints JSON array to stdout as the last line
+        "args": ["${workspaceFolder}/populate.sh"],
+        // memoize the selection for the future
+        "var": "myDynamicParameter-${workspaceId}-${configId}",
+        // map options to values
+        "unwrap": "$[*].value",
+        "quickPickOptions": {
+          "canPickMany": true,
+          "ignoreFocusOut": true,
+          "placeHolder": "Please select an option",
+          "title": "Parameter"
+        }
+      }
+    }
+  ]
+}

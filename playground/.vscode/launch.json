@@ -1,0 +1,36 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": ["<node_internals>/**"],
+      "args": ["${input:myDynamicParameter}"],
+      "program": "${workspaceFolder}/main.js",
+      "preLaunchTask": "myPreBuildTask"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "myDynamicParameter",
+      "type": "command",
+      // always require selection
+      "command": "dynamic-inputs.write",
+      "args": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/populate.sh"],
+        // memoize the selection to pass to myPreBuildTask
+        "var": "myDynamicParameter-${workspaceId}-${configId}",
+        // map options to values
+        "unwrap": "$[*].value",
+        "quickPickOptions": {
+          "canPickMany": true,
+          "ignoreFocusOut": true,
+          "placeHolder": "Please select an option",
+          "title": "Parameter"
+        }
+      }
+    }
+  ]
+}
