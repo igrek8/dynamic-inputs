@@ -113,6 +113,8 @@ async function writeOperation(opts: WriteOperationOptions) {
       const selection = await vscode.window.showQuickPick<vscode.QuickPickItem>(items, opts.quickPickOptions);
 
       if (typeof selection === "undefined") {
+        // reset cache after cancellation
+        cache.clear();
         // skip when no selection was made
         return;
       }
@@ -138,6 +140,8 @@ async function writeOperation(opts: WriteOperationOptions) {
       }
 
       if (typeof value === "undefined") {
+        // reset cache after cancellation
+        cache.clear();
         // skip when no selection was made
         return;
       }
