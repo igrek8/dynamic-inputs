@@ -112,22 +112,43 @@ async function writeOperation(opts: WriteOperationOptions) {
       const items: vscode.QuickPickItem[] = JSON.parse(line);
       const selection = await vscode.window.showQuickPick<vscode.QuickPickItem>(items, opts.quickPickOptions);
 
-      const unwrapped =
-        typeof selection === "string"
-          ? selection
-          : opts.quickPickOptions?.canPickMany
-          ? jp.query(selection, opts.unwrap ?? "*")
-          : jp.value(selection, opts.unwrap ?? "$");
+      if (typeof selection === "undefined") {
+        // skip when no selection was made
+        return;
+      }
 
-      const serialized = JSON.stringify(unwrapped);
+      let value: string | undefined;
+
+      if (typeof selection === "string") {
+        value = JSON.stringify(selection);
+      }
+
+      if (typeof selection === "object") {
+        if (selection === null) {
+          value = JSON.stringify(selection);
+        } else {
+          if (opts.quickPickOptions?.canPickMany) {
+            const unwrapped = jp.query(selection, opts.unwrap ?? "*");
+            value = JSON.stringify(unwrapped);
+          } else {
+            const unwrapped = jp.value(selection, opts.unwrap ?? "$");
+            value = JSON.stringify(unwrapped);
+          }
+        }
+      }
+
+      if (typeof value === "undefined") {
+        // skip when no selection was made
+        return;
+      }
 
       if (opts.var) {
         const variables = getSubstitutedVariables(opts);
         const key = resolveVariables(opts.var, variables);
-        cache.set(key, serialized);
+        cache.set(key, value);
       }
 
-      return serialized;
+      return value;
     } catch (err) {
       if (i === 0) {
         throw err;
