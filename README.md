@@ -43,6 +43,38 @@ Given
 
 To receive `["A", "B"]` as your selection, you can use the following [JSON path expression](https://www.npmjs.com/package/jsonpath) `$[*].value`
 
+## Options for output string parsing
+
+Given the selected options as
+
+```json
+[A, B, C, D]
+```
+
+You can parse the output string to parse the selected options using `parse` option. The default parser is JSON parser.
+The default parser is applied if you do not specifiy any parsing option or `"parse": "json"`. If you want to customize it,
+you can use below options:
+
+```json
+{
+  ...
+  "parse": {
+    "start": "{",  // first string concatenated to output (default: "")
+    "end": "{",  // last string concatenated to output (default: "")
+    "prefix": "'",  // prefix concatenated to each item of output (default: "")
+    "suffix": "'",  // suffix concatenated to each item of output (default: "")
+    "delimiter": ", ",  // delimiter to divide items (default: ",")
+  },
+  ...
+}
+```
+
+The output after the above parser is applied is like:
+
+```
+{'A', 'B', 'C', 'D'}
+```
+
 ## Playground
 
 ```bash
