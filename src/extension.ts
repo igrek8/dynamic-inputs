@@ -16,6 +16,15 @@ type WriteOperationOptions = {
   command: string;
   args: string[];
   unwrap?: string;
+  parse?:
+    | {
+        start?: string;
+        end?: string;
+        prefix?: string;
+        suffix?: string;
+        delimiter?: string;
+      }
+    | "json";
   quickPickOptions?: vscode.QuickPickOptions;
 };
 
@@ -131,7 +140,15 @@ async function writeOperation(opts: WriteOperationOptions) {
         } else {
           if (opts.quickPickOptions?.canPickMany) {
             const unwrapped = jp.query(selection, opts.unwrap ?? "*");
-            value = JSON.stringify(unwrapped);
+            if (opts.parse && opts.parse !== "json") {
+              const { start, end, prefix, suffix, delimiter } = opts.parse;
+              value =
+                (start ?? "") +
+                unwrapped.map((op) => (prefix ?? "") + op.toString() + (suffix ?? "")).join(delimiter ?? ",") +
+                (end ?? "");
+            } else {
+              value = JSON.stringify(unwrapped);
+            }
           } else {
             const unwrapped = jp.value(selection, opts.unwrap ?? "$");
             value = JSON.stringify(unwrapped);

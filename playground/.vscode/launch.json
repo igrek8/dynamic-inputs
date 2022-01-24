@@ -8,7 +8,6 @@
       "skipFiles": ["<node_internals>/**"],
       "args": ["${input:myDynamicParameter}"],
       "program": "${workspaceFolder}/main.js",
-      "preLaunchTask": "myPreBuildTask"
     }
   ],
   "inputs": [
@@ -24,6 +23,13 @@
         "var": "myDynamicParameter-${workspaceId}-${configId}",
         // map options to values
         "unwrap": "$[*].value",
+        "parse": {
+          "start": "{",
+          "end": "}",
+          "prefix": "'",
+          "suffix": "'",
+          "delimiter": "|",
+        },
         "quickPickOptions": {
           "canPickMany": true,
           "ignoreFocusOut": true,
