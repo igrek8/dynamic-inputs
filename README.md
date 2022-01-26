@@ -8,6 +8,7 @@ This extension lets you populate a dynamic list of options from which you can pi
 - Supports other script languages (bash, python, nodejs etc.)
 - Supports memoization of the parameter using `var` parameter in `args` and `dynamic-inputs.read` command
 - Supports remap options to values by using `unwrap`
+- Supports params serializations via `serializer` option with the following value: `json` or `plain` (will pass multiple selections with a space delimiter)
 
 ## Commands
 
