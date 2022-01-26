@@ -6,6 +6,20 @@ import * as vscode from "vscode";
 
 import { requireOperation } from "./requireOperation";
 
+const serializers = {
+  json: (...args: unknown[]) => {
+    return JSON.stringify(args);
+  },
+  plain: (...args: unknown[]) => {
+    let output = "";
+    for (const arg of args) {
+      output += JSON.stringify(arg);
+      output += " ";
+    }
+    return output.trim();
+  },
+};
+
 type ReadOperationOptions = {
   var: string;
   quickPickOptions?: vscode.QuickPickOptions;
@@ -16,6 +30,7 @@ type WriteOperationOptions = {
   command: string;
   args: string[];
   unwrap?: string;
+  serializer?: keyof typeof serializers;
   quickPickOptions?: vscode.QuickPickOptions;
 };
 
@@ -30,6 +45,9 @@ function isWriteOperationOptions(opts: any): asserts opts is WriteOperationOptio
   }
   if (!Array.isArray(opts.args)) {
     throw new Error("Expected args to be string[]");
+  }
+  if (opts.serializer && !(opts.serializer in serializers)) {
+    throw new Error("Expected serializer is not implemented");
   }
   if (!(opts.args as string[]).every((arg: unknown) => typeof arg === "string")) {
     throw new Error("Expected args to be string[]");
@@ -121,20 +139,22 @@ async function writeOperation(opts: WriteOperationOptions) {
 
       let value: string | undefined;
 
+      const serialize = serializers[opts.serializer ?? "json"];
+
       if (typeof selection === "string") {
-        value = JSON.stringify(selection);
+        value = serialize(selection);
       }
 
       if (typeof selection === "object") {
         if (selection === null) {
-          value = JSON.stringify(selection);
+          value = serialize(selection);
         } else {
           if (opts.quickPickOptions?.canPickMany) {
             const unwrapped = jp.query(selection, opts.unwrap ?? "*");
-            value = JSON.stringify(unwrapped);
+            value = serialize(...unwrapped);
           } else {
             const unwrapped = jp.value(selection, opts.unwrap ?? "$");
-            value = JSON.stringify(unwrapped);
+            value = serialize(unwrapped);
           }
         }
       }

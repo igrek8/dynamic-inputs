@@ -21,9 +21,10 @@
         "command": "bash",
         "args": ["${workspaceFolder}/populate.sh"],
         // memoize the selection to pass to myPreBuildTask
-        "var": "myDynamicParameter-${workspaceId}-${configId}",
+        "var": "myDynamicParameter",
         // map options to values
         "unwrap": "$[*].value",
+        "serializer": "plain",
         "quickPickOptions": {
           "canPickMany": true,
           "ignoreFocusOut": true,
