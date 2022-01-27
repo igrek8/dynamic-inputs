@@ -13,7 +13,7 @@ const serializers = {
   plain: (...args: unknown[]) => {
     let output = "";
     for (const arg of args) {
-      output += JSON.stringify(arg);
+      output += `${arg}`;
       output += " ";
     }
     return output.trim();
