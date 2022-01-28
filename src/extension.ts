@@ -7,16 +7,14 @@ import * as vscode from "vscode";
 import { requireOperation } from "./requireOperation";
 
 const serializers = {
-  json: (...args: unknown[]) => {
-    return JSON.stringify(args);
+  json: (val: string | object) => {
+    return JSON.stringify(val);
   },
-  plain: (...args: unknown[]) => {
-    let output = "";
-    for (const arg of args) {
-      output += `${arg}`;
-      output += " ";
+  plain: (val: string | object) => {
+    if (Array.isArray(val)) {
+      return val.join(" ");
     }
-    return output.trim();
+    return `${val}`;
   },
 };
 
@@ -151,7 +149,7 @@ async function writeOperation(opts: WriteOperationOptions) {
         } else {
           if (opts.quickPickOptions?.canPickMany) {
             const unwrapped = jp.query(selection, opts.unwrap ?? "*");
-            value = serialize(...unwrapped);
+            value = serialize(unwrapped);
           } else {
             const unwrapped = jp.value(selection, opts.unwrap ?? "$");
             value = serialize(unwrapped);
