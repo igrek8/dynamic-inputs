@@ -8,7 +8,7 @@
     "url": "https://github.com/igrek8/dynamic-inputs"
   },
   "description": "Populate a dynamic list of options from which you can pick a value during debugging or running tasks",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "engines": {
     "vscode": "^1.46.0"
   },
